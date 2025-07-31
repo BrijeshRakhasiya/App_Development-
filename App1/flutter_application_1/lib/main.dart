@@ -1,96 +1,100 @@
 import 'package:flutter/material.dart';
+import 'counter.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(MaterialApp(home: MyApp()));
 }
 
-class MyApp extends StatefulWidget {
+class MyApp extends StatelessWidget {
   const MyApp({super.key});
-  @override
-  State<MyApp> createState() => _MyAppState();
-}
 
-class _MyAppState extends State<MyApp> {
-  int counter = 0;
-  String mymsg = "";
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(title: Text("My App"), backgroundColor: Colors.yellow),
-        body: Column(
-          children: [
-            Text("Hello World", style: TextStyle(fontSize: 30)),
-            Text("Counter Value is $counter", style: TextStyle(fontSize: 40)),
-            ElevatedButton(
-              onPressed: () {
-                incrementCounter();
-              },
-              child: Text("+"),
-            ),
-            OutlinedButton(
-              onPressed: () {
-                decrementCounter();
-              },
-              child: Text("-"),
-            ),
-            IconButton(
-              onPressed: () {
-                resetCounter();
-              },
-              icon: Icon(Icons.delete, size: 40),
-            ),
-            Text(" $mymsg"),
-            TextField(
-              onChanged: (value) {
-                setState(() {
-                 
-                  mymsg = value;
-                  checkOddEven();
-                });
-              },
-            ),
-          ],
-        ),
-      ),
+      title: 'Flutter Demo',
+      theme: ThemeData(primarySwatch: Colors.blue),
+      debugShowCheckedModeBanner: false,
+      home: const MyHomePage(title: 'MyApp'),
     );
   }
+}
 
-  void incrementCounter() {
-    setState(() {
-      if (counter > 5) {
-        mymsg = "Counter can't go above 5";
-      } else {
-        counter++;
-        mymsg = "";
-      }
-    });
+class MyHomePage extends StatefulWidget {
+  final String title;
+  const MyHomePage({Key? key, required this.title}) : super(key: key);
+
+  @override
+  State<MyHomePage> createState() => _MyHomePageState();
+}
+
+class _MyHomePageState extends State<MyHomePage> {
+  TextEditingController txt1 = TextEditingController();
+  TextEditingController txt2 = TextEditingController();
+  var msg = "";
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(widget.title),
+        backgroundColor: Colors.blueAccent,
+      ), // AppBar
+      body: Center(
+        child: Column(
+          children: [
+            const Text('Sum App'),
+            TextField(controller: txt1),
+            TextField(controller: txt2),
+            ElevatedButton(
+              onPressed: () {
+                doSum();
+              },
+              child: Text("Submit"),
+            ), // ElevatedButton
+            Text("$msg"),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => Counter()),
+                );
+              },
+              child: Text("Go to Counter"),
+            ), // ElevatedButton
+          ],
+        ), // Column
+      ), // Center
+    ); // Scaffold
   }
 
-  void decrementCounter() {
-    setState(() {
-      if (counter > 0) {
-        counter--;
-        mymsg = "";
-      } else {
-        counter = 0;
-        mymsg = "Counter can't go below 0";
-      }
-    });
-  }
-
-  void resetCounter() {
-    setState(() {
-      counter = 0;
-    });
-  }
-
-  void checkOddEven() {
-    int a = int.parse(mymsg);
-    if (a % 2 == 0) {
-      mymsg = "Even";
-    } else {
-      mymsg = "odd";
+  void doValidation() {
+    var no1 = txt1.text;
+    var no2 = txt2.text;
+    if (no1.isEmpty || no2.isEmpty) {
+      setState(() {
+        msg = "Please enter both numbers";
+      });
+      return;
     }
-  
+    if (int.tryParse(no1) == null || int.tryParse(no2) == null) {
+      setState(() {
+        msg = "Please enter valid numbers";
+      });
+      return;
+    }
+  }
+
+  void doSum() {
+    doValidation();
+    if (msg.isNotEmpty) {
+      return;
+    }
+    var no1 = txt1.text;
+    var no2 = txt2.text;
+    var c = int.parse(no1) + int.parse(no2);
+    print("Sum is $c");
+    setState(() {
+      msg = "Sum is $c";
+    });
+  }
 }
