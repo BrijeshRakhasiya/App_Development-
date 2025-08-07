@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'whatsapp.dart';
+
 
 class Counter extends StatefulWidget {
   const Counter({super.key});
@@ -41,6 +43,15 @@ class _CounterState extends State<Counter> {
             icon: Icon(Icons.delete, size: 40),
           ),
           Text(msg, style: TextStyle(fontSize: 20, color: Colors.red)),
+          ElevatedButton(
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const ThirdPage()),
+            );
+          },
+          child: Text("Go to WhatsApp Page"),
+        ),
         ],
       ),
     );

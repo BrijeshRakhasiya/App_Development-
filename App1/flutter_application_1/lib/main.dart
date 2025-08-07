@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'counter.dart';
 import 'login_page.dart';
+import 'whatsapp.dart';
 
 void main() {
   runApp(MaterialApp(home: MyApp()));
@@ -125,6 +126,26 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
                 child: const Text(
                   "Go to Counter",
+                  style: TextStyle(color: Colors.white),
+                ),
+              ), // ElevatedButton
+              const SizedBox(height: 20),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const ThirdPage()),
+                  );
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.green,
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 30,
+                    vertical: 15,
+                  ),
+                ),
+                child: const Text(
+                  "Go to WhatsApp Page",
                   style: TextStyle(color: Colors.white),
                 ),
               ), // ElevatedButton
